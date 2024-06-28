@@ -2,6 +2,8 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 import express from 'express'
 const app = express()
+import cors from 'cors'
+app.use(cors());
 app.use(express.json());
 import fetch from 'node-fetch';
 import { config } from 'dotenv';
@@ -152,11 +154,13 @@ app.get("/users", async (req, res) => {
     res.json(result)
 });
 
-app.post("/creat", async (req, res) => {
-    const { email } = req.body;
+app.post("/register", async (req, res) => {
+    const { email, password, name } = req.body;
     const result = await prisma.user.create({
         data: {
-            email
+            name,
+            email,
+            password
         },
     });
     res.json(result)
@@ -166,10 +170,10 @@ app.put("/updateuser", async (req, res) => {
     const { name, email } = req.body;
     const result = await prisma.user.update({
         where: {
-           email
+            email
         },
         data: {
-          name
+            name
         },
     });
     res.json(result)
