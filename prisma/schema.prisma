@@ -25,7 +25,7 @@ model Post {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   author    User?    @relation(fields: [authorId], references: [id])
   authorId  String?  @db.ObjectId
-  content   Json?
+  content   String
   createdAt DateTime @default(now())
   published Boolean  @default(false)
   title     String
@@ -37,6 +37,7 @@ model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   email     String   @unique
   name      String?
+  password  String
   favoritos Movies[]
   posts     Post[]
 }
